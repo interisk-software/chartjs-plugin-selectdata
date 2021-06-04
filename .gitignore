@@ -1,0 +1,9 @@
+.idea
+dist
+node_modules
+.DS_Store
+.vscode/
+bower.json
+cc-test-reporter
+coverage/
+*.stackdump

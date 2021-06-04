@@ -1,0 +1,54 @@
+{
+  "name": "chartjs-plugin-selectdata",
+  "version": "0.1.0",
+  "description": "Data Selectable for Chart.js",
+  "main": "dist/chartjs-plugin-selectdata.js",
+  "scripts": {
+    "bower": "node scripts/create-bower-json",
+    "test": "echo 'test'",
+    "package": "npm run build && node scripts/create-packages.js",
+    "lint": "eslint . --ext .js",
+    "build": "rollup -c",
+    "build:dev": "rollup -c --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luancaike/chartjs-plugin-selectdata.git"
+  },
+  "files": [
+    "dist/*.js"
+  ],
+  "keywords": [
+    "chart.js",
+    "plugin",
+    "selectable",
+    "select",
+    "data",
+    "filter",
+    "powerbi",
+    "microsoft"
+  ],
+  "bugs": {
+    "url": "https://github.com/luancaike/chartjs-plugin-selectdata/issues"
+  },
+  "author": "Luan Caike",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "@types/chart.js": "^2.9.32",
+    "archiver": "^5.3.0",
+    "chart.js": "3.0.0",
+    "eslint": "7.2.0",
+    "eslint-config-chartjs": "^0.3.0",
+    "rollup": "^2.45.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-istanbul": "^3.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "semver": "^7.3.5"
+  },
+  "peerDependencies": {
+    "chart.js": ">= 2.7.0 < 3"
+  }
+}
