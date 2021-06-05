@@ -31,7 +31,51 @@ const SelectionDataPlugin = {
       const selectedIndex = selected[0]._index || selected[0].index;
       let clearSelection = false;
 
-      // eslint-disable-next-line complexity
+      const ifNeedClearSelection = (dataset, resetKeys = []) => {
+        if (dataset[EXPANDO_INDEX] === selectedIndex) {
+          clearSelection = true;
+          dataset[EXPANDO_INDEX] = null;
+          resetKeys.forEach(key => {
+            dataset[key] = dataset[EXPANDO_COLOR][key];
+          });
+          return true;
+        }
+
+        dataset[EXPANDO_INDEX] = selectedIndex;
+        return false;
+      };
+
+      const checkExpandoKeys = (dataset, checkKeys = []) => {
+        checkKeys.forEach(key => {
+          if (dataset[EXPANDO_COLOR] && dataset[EXPANDO_COLOR][key]) {
+            dataset[key] = dataset[EXPANDO_COLOR][key];
+          }
+        });
+      };
+
+      const setColorsAlphaNotSelected = (dataset, key) => {
+        if (Array.isArray(dataset[key]) && dataset[key].length) {
+          dataset[EXPANDO_COLOR][key] = dataset[key];
+          dataset[key] = dataset[key]
+            .map((color, colorIndex) => (selectedIndex !== colorIndex ? helpers.color(color).alpha(alpha).rgbString() : color));
+        }
+        if (typeof dataset[key] === 'string') {
+          dataset[EXPANDO_COLOR][key] = dataset[key];
+          dataset[key] = dataset.data
+            .map((e, colorIndex) => (selectedIndex !== colorIndex ? helpers.color(dataset[key]).alpha(alpha).rgbString() : dataset.pointBackgroundColor));
+        }
+      };
+      const setColorsAlphaAll = (dataset, key) => {
+        if (typeof dataset[key] === 'string') {
+          dataset[EXPANDO_COLOR][key] = dataset[key];
+          dataset[key] = helpers.color(dataset[key]).alpha(alpha).rgbString();
+        }
+        if (Array.isArray(dataset[key]) && dataset[key].length) {
+          dataset[EXPANDO_COLOR][key] = dataset[key];
+          dataset[key] = dataset[key].map((color) => helpers.color(color).alpha(alpha).rgbString());
+        }
+      };
+
       chart.config.data.datasets.forEach((dataset) => {
         if (!dataset[EXPANDO_COLOR]) {
           dataset[EXPANDO_COLOR] = {};
@@ -40,66 +84,20 @@ const SelectionDataPlugin = {
         case 'line':
         case 'radar':
         case 'scatter':
-          if (dataset.pointBackgroundColor === undefined) {
-            dataset.pointBackgroundColor = dataset.borderColor || 'rgb(0,0,0)';
-          }
-          if (dataset[EXPANDO_INDEX] === selectedIndex) {
-            clearSelection = true;
-            dataset[EXPANDO_INDEX] = null;
-            dataset.pointBackgroundColor = dataset[EXPANDO_COLOR].pointBackgroundColor;
-            dataset.borderColor = dataset[EXPANDO_COLOR].borderColor;
+          dataset.pointBackgroundColor = dataset.pointBackgroundColor === undefined ? dataset.borderColor || 'rgb(0,0,0)' : dataset.pointBackgroundColor;
+          if (ifNeedClearSelection(dataset, ['pointBackgroundColor', 'borderColor'])) {
             return;
           }
-
-          dataset[EXPANDO_INDEX] = selectedIndex;
-          if (dataset[EXPANDO_COLOR] && dataset[EXPANDO_COLOR].pointBackgroundColor) {
-            dataset.pointBackgroundColor = dataset[EXPANDO_COLOR].pointBackgroundColor;
-          }
-          if (dataset[EXPANDO_COLOR] && dataset[EXPANDO_COLOR].borderColor) {
-            dataset.borderColor = dataset[EXPANDO_COLOR].borderColor;
-          }
-
-          if (Array.isArray(dataset.pointBackgroundColor) && dataset.pointBackgroundColor.length) {
-            dataset[EXPANDO_COLOR].pointBackgroundColor = dataset.pointBackgroundColor;
-            dataset.pointBackgroundColor = dataset.pointBackgroundColor
-              .map((color, colorIndex) => (selectedIndex !== colorIndex ? helpers.color(color).alpha(alpha).rgbString() : color));
-          }
-          if (typeof dataset.pointBackgroundColor === 'string') {
-            dataset[EXPANDO_COLOR].pointBackgroundColor = dataset.pointBackgroundColor;
-            dataset.pointBackgroundColor = dataset.data
-              .map((e, colorIndex) => (selectedIndex !== colorIndex ? helpers.color(dataset.pointBackgroundColor).alpha(alpha).rgbString() : dataset.pointBackgroundColor));
-          }
-          if (typeof dataset.borderColor === 'string') {
-            dataset[EXPANDO_COLOR].borderColor = dataset.borderColor;
-            dataset.borderColor = helpers.color(dataset.borderColor).alpha(alpha).rgbString();
-          }
-          if (Array.isArray(dataset.borderColor) && dataset.borderColor.length) {
-            dataset[EXPANDO_COLOR].borderColor = dataset.borderColor;
-            dataset.borderColor = dataset.borderColor.map((color) => helpers.color(color).alpha(alpha).rgbString());
-          }
+          checkExpandoKeys(dataset, ['pointBackgroundColor', 'borderColor']);
+          setColorsAlphaNotSelected(dataset, 'pointBackgroundColor');
+          setColorsAlphaAll(dataset, 'borderColor');
           break;
         default:
-          if (dataset[EXPANDO_INDEX] === selectedIndex) {
-            clearSelection = true;
-            dataset[EXPANDO_INDEX] = null;
-            dataset.backgroundColor = dataset[EXPANDO_COLOR].backgroundColor;
+          if (ifNeedClearSelection(dataset, ['backgroundColor'])) {
             return;
           }
-
-          dataset[EXPANDO_INDEX] = selectedIndex;
-          if (dataset[EXPANDO_COLOR] && dataset[EXPANDO_COLOR].backgroundColor) {
-            dataset.backgroundColor = dataset[EXPANDO_COLOR].backgroundColor;
-          }
-          if (Array.isArray(dataset.backgroundColor) && dataset.backgroundColor.length) {
-            dataset[EXPANDO_COLOR].backgroundColor = dataset.backgroundColor;
-            dataset.backgroundColor = dataset.backgroundColor
-              .map((color, colorIndex) => (selectedIndex !== colorIndex ? helpers.color(color).alpha(alpha).rgbString() : color));
-          }
-          if (typeof dataset.backgroundColor === 'string') {
-            dataset[EXPANDO_COLOR].backgroundColor = dataset.backgroundColor;
-            dataset.backgroundColor = dataset.data
-              .map((e, colorIndex) => (selectedIndex !== colorIndex ? helpers.color(dataset.backgroundColor).alpha(alpha).rgbString() : dataset.backgroundColor));
-          }
+          checkExpandoKeys(dataset, ['backgroundColor']);
+          setColorsAlphaNotSelected(dataset, 'backgroundColor');
           break;
         }
       });
