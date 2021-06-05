@@ -8,10 +8,8 @@ const alpha = 0.1;
 const globals = Chart.defaults.global || Chart.defaults;
 
 globals.plugins.selectdata = {
-  onSelection() {
-  },
-  onSelectionClear() {
-  },
+  onSelection: undefined,
+  onSelectionClear: undefined
 };
 
 const SelectionDataPlugin = {
@@ -111,9 +109,9 @@ const SelectionDataPlugin = {
         datasetIndex: selected.map((el) => el._datasetIndex || el.datasetIndex),
         index: selectedIndex,
       };
-      if (clearSelection) {
+      if (clearSelection && options.onSelectionClear) {
         options.onSelectionClear(params);
-      } else {
+      } else if (options.onSelection) {
         options.onSelection(params);
       }
     }
