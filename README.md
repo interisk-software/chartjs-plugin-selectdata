@@ -1,135 +1,91 @@
 # chartjs-plugin-selectdata
 
-[![npm](https://img.shields.io/npm/v/chartjs-plugin-selectdata.svg?style=flat-square)](https://npmjs.com/package/chartjs-plugin-selectdata) [![Travis](https://img.shields.io/travis/luancaike/chartjs-plugin-selectdata/master.svg?style=flat-square)](https://travis-ci.org/luancaike/chartjs-plugin-selectdata) [![Coverage](https://img.shields.io/codeclimate/coverage/luancaike/chartjs-plugin-selectdata.svg?style=flat-square)](https://codeclimate.com/github/luancaike/chartjs-plugin-selectdata)  [![Maintainability](https://img.shields.io/codeclimate/maintainability/luancaike/chartjs-plugin-selectdata.svg?style=flat-square)](https://codeclimate.com/github/luancaike/chartjs-plugin-selectdata) [![Awesome](https://awesome.re/badge-flat2.svg)](https://github.com/chartjs/awesome)
+[![npm](https://img.shields.io/npm/v/chartjs-plugin-selectdata.svg?style=flat-square)](https://npmjs.com/package/chartjs-plugin-selectdata) [![CI](https://github.com/luancaike/chartjs-plugin-selectdata/actions/workflows/ci.yml/badge.svg)](https://github.com/luancaike/chartjs-plugin-selectdata/actions/workflows/ci.yml) [![Coverage](https://img.shields.io/codeclimate/coverage/luancaike/chartjs-plugin-selectdata.svg?style=flat-square)](https://codeclimate.com/github/luancaike/chartjs-plugin-selectdata)  [![Maintainability](https://img.shields.io/codeclimate/maintainability/luancaike/chartjs-plugin-selectdata.svg?style=flat-square)](https://codeclimate.com/github/luancaike/chartjs-plugin-selectdata)
 
 *Data Selectable for Chart.js [Chart.js](https://www.chartjs.org)*
 
 You can select a data in the graph and it comes into focus, emphasizing only the selected one and clicking on it disables the focus and makes the graph return to normal
 
-This plugin requires Chart.js 2.5.0 or later.
+This plugin requires Chart.js 2.7.0 or later.
 
 ## Installation
 
-You can download the latest version of chartjs-plugin-colorschemes from the [GitHub releases](https://github.com/nagix/chartjs-plugin-colorschemes/releases/latest).
+You can download the latest version of chartjs-plugin-selectdata from the [GitHub releases](https://github.com/luancaike/chartjs-plugin-selectdata/releases/latest).
 
 To install via npm:
 
 ```bash
-npm install chartjs-plugin-colorschemes --save
+npm install chartjs-plugin-selectdata --save
 ```
 
-To install via bower:
+To install via yarn:
 
 ```bash
-bower install chartjs-plugin-colorschemes --save
-```
-
-To use CDN:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
-```
-```html
-<script src="https://unpkg.com/chartjs-plugin-colorschemes"></script>
+yarn add chartjs-plugin-selectdata
 ```
 
 ## Usage
 
-chartjs-plugin-colorschemes can be used with ES6 modules, plain JavaScript and module loaders.
+chartjs-plugin-selectdata can be used with ES6 modules, plain JavaScript and module loaders.
 
-Include Chart.js and chartjs-plugin-colorschemes.js to your page, and specify a color scheme as shown in the example below. You can pick a scheme from [Color Chart](https://nagix.github.io/chartjs-plugin-colorschemes/colorchart.html).
+Include Chart.js and chartjs-plugin-selectdata.js in your page, the plugin will already be enabled.
 
-```js
-    options: {
-        plugins: {
-            colorschemes: {
-                scheme: 'brewer.Paired12'
-            }
-        }
-    }
-```
-
-Every color scheme has a number at the end of its name, which indicates the number of that colors included in the scheme. If the number of the datasets is larger than it, the same colors will appear repeatedly. A color is not modified if it is specified by dataset options.
+Along with the plugin is also added as 2 new event settings `onSelection` and `onSelectionClear`
 
 ### Usage in ES6 as Module
 
 Nothing else than importing the module should be enough.
 
 ```js
-import 'chartjs-plugin-colorschemes';
+import 'chartjs-plugin-selectdata';
 ```
-
-If you want to reduce the size by only importing the plugin core and particular color schemes, see the example below.
-
-```js
-// import the plugin core
-import 'chartjs-plugin-colorschemes/src/plugins/plugin.colorschemes';
-
-// import a particular color scheme
-import { Aspect6 } from 'chartjs-plugin-colorschemes/src/colorschemes/colorschemes.office';
-
-// ...
-    options: {
-        plugins: {
-            colorschemes: {
-                scheme: Aspect6
-            }
-        }
-    }
-//...
-```
-
-## Tutorial
-
-You can find a tutorial at [nagix.github.io/chartjs-plugin-colorschemes](https://nagix.github.io/chartjs-plugin-colorschemes).
 
 ## Configuration
 
 The plugin options can be changed at 2 different levels and with the following priority:
 
-- per chart: `options.plugins.colorschemes.*`
-- globally: `Chart.defaults.global.plugins.colorschemes.*`
+- per chart: `options.plugins.selectdata.*`
+- globally: `Chart.defaults.global.plugins.selectdata.*`
 
 All available options are listed below.
 
 | Name | Type | Default | Description
 | ---- | ---- | ------- | -----------
-| `fillAlpha` | `number` | `0.5` | The transparency value for the line fill color. Must be a number between `0.0` (fully transparent) and `1.0` (no transparency).
-| `scheme` | <code>string&#124;string[]</code> | `'brewer.Paired12'` | Color scheme name that is any of [Color Chart](https://nagix.github.io/chartjs-plugin-colorschemes/colorchart.html). It also accepts an array of color strings, which is primarily for ES modules. [more...](#usage-in-es6-as-module)
-| `reverse` | `boolean` | `false` | If set to `true`, the order of the colors in the selected  scheme is reversed.
-| `override` | `boolean` | `false` | If set to `true`, the specified color scheme will override the existing color options. If `false`, it is only applied when no color setting exists. [more...](#overriding-existing-color-settings)
-| `custom` | `function` | `undefined` | A function that takes a copy of the color string array for `scheme` in order to extend the predefined scheme colors. [more...](#custom-function)
+| `onSelection` | `function` | `undefined` | A function that is called every time a dataset is selected. [more...](#functions)
+| `onSelectionClear` | `function` | `undefined` | A function that is called every time a dataset is deselected and the graph returns to default.[more...](#functions)
 
-### Overriding Existing Color Settings
+### Functions
 
-By default, this plugin doesn't apply a color scheme if any color options are already specified. This may cause a problem if you are using a third party library such as [ng-charts](https://valor-software.com/ng2-charts/), which automatically applies default color settings. In that case, the existing color settings can be overridden by setting the `override` option to `true`.
-
-### `custom`-Function
-
-With the help of the `custom`-Function you can extend the predefined scheme colors. This function takes a copy of the current scheme and is expected to return an array with at least one element. See the example below.
+With the callback functions you can perform actions based on the interactions with the graph.
 
 ```js
-var customColorFunction = function(schemeColors) {
-    var myColors = ['#ff0000', '#00ff00', '#0000ff']; // define/generate own colors
+var onSelection = function(dataSelection) {
+    console.log(dataSelection)
+};
 
-    // extend the color scheme with own colors
-    Array.prototype.push.apply(schemeColors, myColors);
-
-    return schemeColors; // optional: this is not needed if the array is modified in place
+var onSelectionClear = function(dataSelection) {
+    console.log('it is clean')
 };
 
 // ...
-    options: {
-        plugins: {
-            colorschemes: {
-                scheme: 'brewer.Paired12',
-                custom: customColorFunction
-            }
+options: {
+    plugins: {
+        selectdata: {
+            onSelection: onSelection,
+            onSelectionClear: onSelectionClear
         }
     }
+}
 //...
 
 ```
+### `dataSelection` properties
+
+| Name | Type  | Description
+| ---- | ----  | -----------
+| `datasetIndex` | `number[]`  |  Array of indexes of the selected dataset.
+| `index` | `number`  |  label index based on selection
+
 
 ## Building
 
@@ -142,15 +98,14 @@ npm install
 The following commands will then be available from the repository root:
 
 ```bash
-gulp build            # build dist files
-gulp build --watch    # build and watch for changes
-gulp test             # run all tests
-gulp test --watch     # run all tests and watch for changes
-gulp test --coverage  # run all tests and generate code coverage
-gulp lint             # perform code linting
-gulp package          # create an archive with dist files and samples
+npm run build            # build dist files
+npm run build:dev        # build and watch for changes
+npm run test             # run all tests
+npm run lint             # perform code linting
+npm run package          # create an archive with dist files and samples
+npm run bower            # create bower.json
 ```
 
 ## License
 
-chartjs-plugin-colorschemes is available under the [MIT license](https://opensource.org/licenses/MIT).
+chartjs-plugin-selectdata is available under the [MIT license](https://opensource.org/licenses/MIT).
