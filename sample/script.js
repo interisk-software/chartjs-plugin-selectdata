@@ -35,11 +35,9 @@ let barChart = new Chart(ctxBarChart, {
     plugins: {
       selectdata: {
         onSelection: function(dataSelection) {
-          console.log(dataSelection);
 
         },
         onSelectionClear: function(dataSelection) {
-          console.log(dataSelection);
         },
       },
     },
@@ -71,11 +69,9 @@ let lineChart = new Chart(ctxLineChart, {
     plugins: {
       selectdata: {
         onSelection: function(dataSelection) {
-          console.log(dataSelection);
 
         },
         onSelectionClear: function(dataSelection) {
-          console.log(dataSelection);
         },
       },
     },
@@ -130,11 +126,49 @@ let radarChart = new Chart(ctxRadarChart, {
     plugins: {
       selectdata: {
         onSelection: function(dataSelection) {
-          console.log(dataSelection);
 
         },
         onSelectionClear: function(dataSelection) {
-          console.log(dataSelection);
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+let ctxPieChart = document.getElementById('pieChart').getContext('2d');
+let pieChart = new Chart(ctxPieChart, {
+  type: 'pie',
+  data: {
+    labels: [
+      'Red',
+      'Blue',
+      'Yellow'
+    ],
+    datasets: [
+      {
+        label: 'My First Dataset',
+        data: [300, 50, 100],
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)'
+        ],
+        hoverOffset: 4
+      }
+    ]
+  },
+  options: {
+    plugins: {
+      selectdata: {
+        onSelection: function(dataSelection) {
+
+        },
+        onSelectionClear: function(dataSelection) {
         },
       },
     },
