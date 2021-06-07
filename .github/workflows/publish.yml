@@ -8,7 +8,7 @@ on:
 
 jobs:
   publish-to-npm:
-    if: github.repository_owner == 'luancaike'
+    if: github.repository_owner == 'interisk-software'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
