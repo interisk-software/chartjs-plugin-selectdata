@@ -54,6 +54,7 @@ All available options are listed below.
 | `onSelection` | `function` | `undefined` | A function that is called every time a dataset is selected. [more...](#functions)
 | `onSelectionClear` | `function` | `undefined` | A function that is called every time a dataset is deselected and the graph returns to default.[more...](#functions)
 
+
 ### Functions
 
 With the callback functions you can perform actions based on the interactions with the graph.
@@ -86,6 +87,38 @@ options: {
 | `datasetIndex` | `number[]`  |  Array of indexes of the selected dataset.
 | `index` | `number`  |  label index based on selection
 
+### Chart
+
+Options available in the instance of the chart
+
+| Name | Type | Parameters | Description
+| ---- | ---- | ------- | -----------
+| `clearSelection` | `function` | `none` | This function when executed resets the selection state.
+| `selectDataIndex` | `function` | `number` | This function selects the dataset data according to the index.
+
+With the functions added in the chart instance you can programmatically execute the selection actions
+
+```js
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {/* options */})
+
+// ...
+
+// Wait to chart render
+setTimeout(function () {
+    myChart.selectDataIndex(0) // Select firt dataset data
+}, 3000)
+
+// ...
+
+setTimeout(function () {
+    myChart.clearSelection() // clear selection
+}, 10000)
+
+//...
+
+```
+
 
 ## Building
 
@@ -98,6 +131,8 @@ npm install
 The following commands will then be available from the repository root:
 
 ```bash
+npm run sample           # build and run sample
+npm run dev              # build and run development mode using sample
 npm run build            # build dist files
 npm run build:dev        # build and watch for changes
 npm run test             # run all tests
