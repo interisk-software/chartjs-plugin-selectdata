@@ -15,7 +15,7 @@ const {version} = require('../package.json');
 
   console.info(`Publishing version ${version} (@${tag})`);
 
-  await run(`npm publish --tag ${tag}`);
+  await run(`npm publish --access public --tag ${tag}`);
 
 })().catch((error) => {
   console.error(`Failed to publish to npm: ${error.message || error}.`);

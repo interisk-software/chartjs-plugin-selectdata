@@ -1,6 +1,6 @@
 {
-  "name": "chartjs-plugin-selectdata",
-  "version": "0.1.0",
+  "name": "@interisk-software/chartjs-plugin-selectdata",
+  "version": "0.1.0-alpha",
   "description": "Data Selectable for Chart.js",
   "main": "dist/chartjs-plugin-selectdata.js",
   "scripts": {
