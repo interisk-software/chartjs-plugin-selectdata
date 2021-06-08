@@ -8,7 +8,7 @@ You can select a data in the graph and it comes into focus, emphasizing only the
 
 This plugin requires Chart.js 2.7.0 or later.
 
-## Installation
+## :rocket:	Installation
 
 You can download the latest version of chartjs-plugin-selectdata from the [GitHub releases](https://github.com/luancaike/chartjs-plugin-selectdata/releases/latest).
 
@@ -24,7 +24,7 @@ To install via yarn:
 yarn add chartjs-plugin-selectdata
 ```
 
-## Usage
+## :man_cartwheeling: Usage
 
 chartjs-plugin-selectdata can be used with ES6 modules, plain JavaScript and module loaders.
 
@@ -40,7 +40,7 @@ Nothing else than importing the module should be enough.
 import 'chartjs-plugin-selectdata';
 ```
 
-## Configuration
+## :gear: Configuration
 
 The plugin options can be changed at 2 different levels and with the following priority:
 
@@ -55,7 +55,7 @@ All available options are listed below.
 | `onSelectionClear` | `function` | `undefined` | A function that is called every time a dataset is deselected and the graph returns to default.[more...](#functions)
 
 
-### Functions
+### :pushpin: Functions
 
 With the callback functions you can perform actions based on the interactions with the graph.
 
@@ -87,7 +87,7 @@ options: {
 | `datasetIndex` | `number[]`  |  Array of indexes of the selected dataset.
 | `index` | `number`  |  label index based on selection
 
-### Chart
+### :bar_chart:	Chart
 
 Options available in the instance of the chart
 
@@ -120,7 +120,7 @@ setTimeout(function () {
 ```
 
 
-## Building
+## :hammer:	Building
 
 You first need to install node dependencies (requires [Node.js](https://nodejs.org/)):
 
@@ -141,6 +141,6 @@ npm run package          # create an archive with dist files and samples
 npm run bower            # create bower.json
 ```
 
-## License
+## :balance_scale: License
 
 chartjs-plugin-selectdata is available under the [MIT license](https://opensource.org/licenses/MIT).
