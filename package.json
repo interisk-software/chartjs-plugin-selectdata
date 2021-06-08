@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/luancaike/chartjs-plugin-selectdata.git"
+    "url": "https://github.com/interisk-software/chartjs-plugin-selectdata.git"
   },
   "files": [
     "bower.json",
@@ -35,7 +35,7 @@
     "microsoft"
   ],
   "bugs": {
-    "url": "https://github.com/luancaike/chartjs-plugin-selectdata/issues"
+    "url": "https://github.com/interisk-software/chartjs-plugin-selectdata/issues"
   },
   "author": "Luan Caike",
   "license": "MIT",
