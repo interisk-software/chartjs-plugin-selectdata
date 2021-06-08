@@ -23,6 +23,14 @@ To install via yarn:
 ```bash
 yarn add chartjs-plugin-selectdata
 ```
+To use CDN:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@interisk-software/chartjs-plugin-selectdata"></script>
+```
+```html
+<script src="https://unpkg.com/@interisk-software/chartjs-plugin-selectdata"></script>
+```
 
 ## :man_cartwheeling: Usage
 
@@ -37,7 +45,25 @@ Along with the plugin is also added as 2 new event settings `onSelection` and `o
 Nothing else than importing the module should be enough.
 
 ```js
+
 import 'chartjs-plugin-selectdata';
+// or
+import SelectionDataPlugin from 'chartjs-plugin-selectdata';
+
+```
+
+### Chart.js plugin register
+
+In es6 with modules it is necessary to import, in plain javascript the plugin is available via windown
+
+```js
+
+//Chart.js v3.x.x
+Chart.register(SelectionDataPlugin);
+
+//Chart.js v2.x.x
+Chart.plugins.register(SelectionDataPlugin);
+
 ```
 
 ## :gear: Configuration
