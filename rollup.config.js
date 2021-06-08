@@ -10,7 +10,7 @@ const banner = `/*!
 
 module.exports = [
   {
-    input: 'src/index.js',
+    input: 'src/plugin.js',
     output: ['.js', '.min.js'].map((suffix) => {
       const config = {
         name: 'ChartSelectData',

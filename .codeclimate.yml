@@ -19,6 +19,7 @@ plugins:
     enabled: true
 exclude_patterns:
   - "coverage/"
+  - "sample/"
   - "docs/"
   - "scripts/"
   - "test/"

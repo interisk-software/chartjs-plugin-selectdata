@@ -5,7 +5,9 @@
   "main": "dist/@interisk-software/chartjs-plugin-selectdata.js",
   "scripts": {
     "bower": "node scripts/create-bower-json",
-    "test": "echo 'test'",
+    "test": "npm run test-unit",
+    "test-unit:dev": "karma start --auto-watch --grep",
+    "test-unit": "karma start --single-run --coverage --grep",
     "package": "npm run build && node scripts/create-packages.js",
     "lint": "eslint . --ext .js",
     "presample": "npm run build",
@@ -40,17 +42,28 @@
   "devDependencies": {
     "@types/chart.js": "^2.9.32",
     "archiver": "^5.3.0",
-    "chart.js": "3.0.0",
+    "chart.js": "^2.9.4",
+    "chartjs-test-utils": "^0.3.0",
+    "concurrently": "^6.2.0",
     "eslint": "7.2.0",
     "eslint-config-chartjs": "^0.3.0",
+    "jasmine-core": "^3.7.1",
+    "karma": "^6.3.2",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.3",
+    "karma-jasmine": "^4.0.1",
+    "karma-jasmine-html-reporter": "^1.5.4",
+    "karma-rollup-preprocessor": "^7.0.7",
+    "karma-spec-reporter": "^0.0.32",
     "lite-server": "^2.6.1",
+    "pixelmatch": "^5.2.1",
     "rollup": "^2.45.1",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-istanbul": "^3.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^7.0.2",
     "semver": "^7.3.5",
-    "concurrently": "^6.2.0"
+    "yargs": "^17.0.1"
   },
   "peerDependencies": {
     "chart.js": ">= 2.7.0 < 3"

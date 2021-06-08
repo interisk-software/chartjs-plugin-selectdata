@@ -141,7 +141,5 @@ const SelectionDataPlugin = {
     }
   },
 };
-const pluginRegister = (Chart.plugins || Chart);
-pluginRegister.register(SelectionDataPlugin);
-
+window.SelectionDataPlugin = SelectionDataPlugin;
 export default SelectionDataPlugin;
