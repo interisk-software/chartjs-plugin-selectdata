@@ -45,7 +45,7 @@ const selectIndexDataSet = function(chart, selectedIndex) {
     if (typeof dataset[key] === 'string') {
       dataset[EXPANDO_COLOR][key] = dataset[key];
       dataset[key] = dataset.data
-        .map((e, colorIndex) => (selectedIndex !== colorIndex ? helpers.color(dataset[key]).alpha(alpha).rgbString() : dataset.pointBackgroundColor));
+        .map((e, colorIndex) => (selectedIndex !== colorIndex ? helpers.color(dataset[key]).alpha(alpha).rgbString() : dataset[key]));
     }
   };
   const setColorsAlphaAll = (dataset, key) => {
@@ -141,5 +141,7 @@ const SelectionDataPlugin = {
     }
   },
 };
+// const pluginRegister = (Chart.plugins || Chart);
+// pluginRegister.register(SelectionDataPlugin);
 window.SelectionDataPlugin = SelectionDataPlugin;
 export default SelectionDataPlugin;
