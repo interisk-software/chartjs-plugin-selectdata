@@ -38,7 +38,7 @@ chartjs-plugin-selectdata can be used with ES6 modules, plain JavaScript and mod
 
 Include Chart.js and chartjs-plugin-selectdata.js in your page, the plugin will already be enabled.
 
-Along with the plugin is also added as 2 new event settings `onSelection` and `onSelectionClear`
+Along with the plugin is also added as 2 new event settings `onSelect` and `onSelectClear`
 
 ### Usage in ES6 as Module
 
@@ -77,8 +77,8 @@ All available options are listed below.
 
 | Name | Type | Default | Description
 | ---- | ---- | ------- | -----------
-| `onSelection` | `function` | `undefined` | A function that is called every time a dataset is selected. [more...](#functions)
-| `onSelectionClear` | `function` | `undefined` | A function that is called every time a dataset is deselected and the graph returns to default.[more...](#functions)
+| `onSelect` | `function` | `undefined` | A function that is called every time a dataset is selected. [more...](#functions)
+| `onSelectClear` | `function` | `undefined` | A function that is called every time a dataset is deselected and the graph returns to default.[more...](#functions)
 
 
 ### :pushpin: Functions
@@ -86,11 +86,11 @@ All available options are listed below.
 With the callback functions you can perform actions based on the interactions with the graph.
 
 ```js
-var onSelection = function(dataSelection) {
+var onSelect = function(dataSelection) {
     console.log(dataSelection)
 };
 
-var onSelectionClear = function(dataSelection) {
+var onSelectClear = function(dataSelection) {
     console.log('it is clean')
 };
 
@@ -98,8 +98,8 @@ var onSelectionClear = function(dataSelection) {
 options: {
     plugins: {
         selectdata: {
-            onSelection: onSelection,
-            onSelectionClear: onSelectionClear
+            onSelect: onSelect,
+            onSelectClear: onSelectClear
         }
     }
 }
