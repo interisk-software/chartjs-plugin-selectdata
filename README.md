@@ -8,7 +8,7 @@ You can select a data in the graph and it comes into focus, emphasizing only the
 
 This plugin requires Chart.js 2.7.0 or later.
 
-## Installation
+## :rocket:	Installation
 
 You can download the latest version of chartjs-plugin-selectdata from the [GitHub releases](https://github.com/luancaike/chartjs-plugin-selectdata/releases/latest).
 
@@ -23,8 +23,16 @@ To install via yarn:
 ```bash
 yarn add chartjs-plugin-selectdata
 ```
+To use CDN:
 
-## Usage
+```html
+<script src="https://cdn.jsdelivr.net/npm/@interisk-software/chartjs-plugin-selectdata"></script>
+```
+```html
+<script src="https://unpkg.com/@interisk-software/chartjs-plugin-selectdata"></script>
+```
+
+## :man_cartwheeling: Usage
 
 chartjs-plugin-selectdata can be used with ES6 modules, plain JavaScript and module loaders.
 
@@ -37,10 +45,28 @@ Along with the plugin is also added as 2 new event settings `onSelection` and `o
 Nothing else than importing the module should be enough.
 
 ```js
+
 import 'chartjs-plugin-selectdata';
+// or
+import SelectionDataPlugin from 'chartjs-plugin-selectdata';
+
 ```
 
-## Configuration
+### Chart.js plugin register
+
+In es6 with modules it is necessary to import, in plain javascript the plugin is available via windown
+
+```js
+
+//Chart.js v3.x.x
+Chart.register(SelectionDataPlugin);
+
+//Chart.js v2.x.x
+Chart.plugins.register(SelectionDataPlugin);
+
+```
+
+## :gear: Configuration
 
 The plugin options can be changed at 2 different levels and with the following priority:
 
@@ -55,7 +81,7 @@ All available options are listed below.
 | `onSelectionClear` | `function` | `undefined` | A function that is called every time a dataset is deselected and the graph returns to default.[more...](#functions)
 
 
-### Functions
+### :pushpin: Functions
 
 With the callback functions you can perform actions based on the interactions with the graph.
 
@@ -87,7 +113,7 @@ options: {
 | `datasetIndex` | `number[]`  |  Array of indexes of the selected dataset.
 | `index` | `number`  |  label index based on selection
 
-### Chart
+### :bar_chart:	Chart
 
 Options available in the instance of the chart
 
@@ -120,7 +146,7 @@ setTimeout(function () {
 ```
 
 
-## Building
+## :hammer:	Building
 
 You first need to install node dependencies (requires [Node.js](https://nodejs.org/)):
 
@@ -141,6 +167,6 @@ npm run package          # create an archive with dist files and samples
 npm run bower            # create bower.json
 ```
 
-## License
+## :balance_scale: License
 
 chartjs-plugin-selectdata is available under the [MIT license](https://opensource.org/licenses/MIT).
