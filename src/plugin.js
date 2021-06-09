@@ -43,7 +43,7 @@ const SelectionDataPlugin = {
         selectedElements = chart.getElementsAtEventForMode(chartEvent.event.native, 'index', {intersect: true}, false);
       }
 
-      if (selectedElements && !selectedElements.length) {
+      if (!selectedElements || (Array.isArray(selectedElements) && !selectedElements.length)) {
         return;
       }
 

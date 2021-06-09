@@ -12,9 +12,7 @@ module.exports = function(karma) {
   const output = builds[0].output.filter((v) => v.file.match(regex))[0];
   const build = Object.assign({}, builds[0], {output: output});
 
-  if (args.autoWatch) {
-    build.output.sourcemap = 'inline';
-  }
+  build.output.sourcemap = 'inline';
 
   karma.set({
     browsers: ['Chrome'],
