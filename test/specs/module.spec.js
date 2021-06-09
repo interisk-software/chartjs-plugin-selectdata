@@ -12,7 +12,7 @@ describe('module', function() {
   });
 
   it ('should not be globally registered', function() {
-    var plugins = Chart.plugins.getAll();
+    const plugins = Chart.plugins.getAll();
     expect(plugins.find((p) => p.id === 'selectdata')).toBeUndefined();
     expect(!plugins.includes(plugin));
   });

@@ -13,6 +13,7 @@ module.exports = [
     input: 'src/plugin.js',
     output: ['.js', '.min.js'].map((suffix) => {
       const config = {
+        exports: 'named',
         name: 'ChartSelectData',
         file: `dist/${pkg.name}${suffix}`,
         banner: banner,
