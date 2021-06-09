@@ -8,8 +8,8 @@ const alpha = 0.1;
 const globals = Chart.defaults.global || Chart.defaults;
 
 globals.plugins.selectdata = {
-  onSelection: undefined,
-  onSelectionClear: undefined
+  onSelect: undefined,
+  onSelectClear: undefined
 };
 
 const selectIndexDataSet = function(chart, selectedIndex) {
@@ -89,15 +89,16 @@ const selectIndexDataSet = function(chart, selectedIndex) {
   return clearSelection;
 };
 
-const emitEventSelection = function(selectedIndex, selected, clearSelection, options) {
+const emitEventSelection = function(selectedIndex, selected, clearSelection, options, chart) {
   const params = {
-    datasetIndex: selected.map((el) => el._datasetIndex || el.datasetIndex),
+    datasetIndex: selected.map((el) => el._datasetIndex === undefined ? el.datasetIndex : el._datasetIndex),
     index: selectedIndex,
   };
-  if (clearSelection && options.onSelectionClear) {
-    options.onSelectionClear(params);
-  } else if (options.onSelection) {
-    options.onSelection(params);
+  if (clearSelection && options.onSelectClear) {
+    options.onSelectClear(params, chart);
+  }
+  if (!clearSelection && options.onSelect) {
+    options.onSelect(params, chart);
   }
 };
 
@@ -121,6 +122,9 @@ const SelectionDataPlugin = {
     };
   },
   afterEvent(chart, chartEvent, options) {
+    if (!options) {
+      return;
+    }
     const eventType = chartEvent.type || chartEvent.event.type;
     if (eventType === 'click') {
 
@@ -135,13 +139,13 @@ const SelectionDataPlugin = {
       if (selectedElements && !selectedElements.length) {
         return;
       }
+
       const selectedIndex = selectedElements[0]._index === undefined ? selectedElements[0].index : selectedElements[0]._index;
       let clearSelection = selectIndexDataSet(chart, selectedIndex, options);
-      emitEventSelection(selectedIndex, selectedElements, clearSelection, options);
+      emitEventSelection(selectedIndex, selectedElements, clearSelection, options, chart);
     }
   },
 };
-// const pluginRegister = (Chart.plugins || Chart);
-// pluginRegister.register(SelectionDataPlugin);
+
 window.SelectionDataPlugin = SelectionDataPlugin;
 export default SelectionDataPlugin;

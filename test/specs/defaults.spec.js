@@ -18,7 +18,7 @@ describe('plugin.selectdata', function() {
 
   describe('selection', function() {
     it('should emit selection event', function() {
-      var onSelection = jasmine.createSpy('onSelection');
+      var onSelect = jasmine.createSpy('onSelect');
       var chart = jasmine.chart.acquire({
         type: 'bar',
         data: {
@@ -36,7 +36,7 @@ describe('plugin.selectdata', function() {
         options: {
           plugins: {
             selectdata: {
-              onSelection
+              onSelect
             }
           },
           elements: {
@@ -49,17 +49,17 @@ describe('plugin.selectdata', function() {
           }
         }
       });
-      expect(onSelection.calls.count()).toBe(0);
+      expect(onSelect.calls.count()).toBe(0);
 
       jasmine.triggerMouseEvent(chart, 'click', {
         x: 76,
         y: 308
       });
 
-      expect(onSelection.calls.count()).toBe(1);
+      expect(onSelect.calls.count()).toBe(1);
     });
     it('should emit selection clear event', function() {
-      var onSelectionClear = jasmine.createSpy('onSelectionClear');
+      var onSelectClear = jasmine.createSpy('onSelectClear');
       var chart = jasmine.chart.acquire({
         type: 'bar',
         data: {
@@ -77,7 +77,7 @@ describe('plugin.selectdata', function() {
         options: {
           plugins: {
             selectdata: {
-              onSelectionClear
+              onSelectClear
             }
           },
           elements: {
@@ -90,19 +90,19 @@ describe('plugin.selectdata', function() {
           }
         }
       });
-      expect(onSelectionClear.calls.count()).toBe(0);
+      expect(onSelectClear.calls.count()).toBe(0);
 
       jasmine.triggerMouseEvent(chart, 'click', {
         x: 76,
         y: 308
       });
-      expect(onSelectionClear.calls.count()).toBe(0);
+      expect(onSelectClear.calls.count()).toBe(0);
 
       jasmine.triggerMouseEvent(chart, 'click', {
         x: 76,
         y: 308
       });
-      expect(onSelectionClear.calls.count()).toBe(1);
+      expect(onSelectClear.calls.count()).toBe(1);
 
     });
   });
