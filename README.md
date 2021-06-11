@@ -110,7 +110,7 @@ options: {
 
 | Name | Type  | Description
 | ---- | ----  | -----------
-| `datasetIndex` | `number[]`  |  Array of indexes of the selected dataset.
+| `datasetIndex` | `number`  |  index of the selected dataset.
 | `index` | `number`  |  label index based on selection
 
 ### :bar_chart:	Chart
@@ -120,7 +120,7 @@ Options available in the instance of the chart
 | Name | Type | Parameters | Description
 | ---- | ---- | ------- | -----------
 | `clearSelection` | `function` | `none` | This function when executed resets the selection state.
-| `selectDataIndex` | `function` | `number` | This function selects the dataset data according to the index.
+| `selectDataIndex` | `function` | index`number`, indexDataSet`number` | This function selects the dataset data according to the index and indexDataSet.
 
 With the functions added in the chart instance you can programmatically execute the selection actions
 
