@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-
+Chart.plugins.register(SelectionDataPlugin);
 const data = [12, 19, 3, 5, 2, 3];
 const labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
 let ctxBarChart = document.getElementById('barChart').getContext('2d');
@@ -34,10 +34,10 @@ let barChart = new Chart(ctxBarChart, {
   options: {
     plugins: {
       selectdata: {
-        onSelection: function(dataSelection) {
-
+        onSelect: function(dataSelection) {
+          console.log(dataSelection);
         },
-        onSelectionClear: function(dataSelection) {
+        onSelectClear: function(dataSelection) {
         },
       },
     },
@@ -62,16 +62,16 @@ let lineChart = new Chart(ctxLineChart, {
         data,
         borderColor: 'rgb(75, 192, 192)',
         pointBackgroundColor: 'rgb(75, 192, 192)'
-      }
+      },
     ]
   },
   options: {
     plugins: {
       selectdata: {
-        onSelection: function(dataSelection) {
+        onSelect: function(dataSelection) {
 
         },
-        onSelectionClear: function(dataSelection) {
+        onSelectClear: function(dataSelection) {
         },
       },
     },
@@ -125,10 +125,10 @@ let radarChart = new Chart(ctxRadarChart, {
   options: {
     plugins: {
       selectdata: {
-        onSelection: function(dataSelection) {
+        onSelect: function(dataSelection) {
 
         },
-        onSelectionClear: function(dataSelection) {
+        onSelectClear: function(dataSelection) {
         },
       },
     },
@@ -165,10 +165,10 @@ let pieChart = new Chart(ctxPieChart, {
   options: {
     plugins: {
       selectdata: {
-        onSelection: function(dataSelection) {
+        onSelect: function(dataSelection) {
 
         },
-        onSelectionClear: function(dataSelection) {
+        onSelectClear: function(dataSelection) {
         },
       },
     },
