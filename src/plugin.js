@@ -1,6 +1,6 @@
 import Chart from 'chart.js';
 import utils from './utils';
-import {EXPANDO_COLOR, EXPANDO_INDEX} from './constants';
+import {EXPANDO_COLOR, EXPANDO_INDEX, EXPANDO_INDEX_DATASET} from './constants';
 
 const globals = Chart.defaults.global || Chart.defaults;
 
@@ -15,6 +15,7 @@ const SelectionDataPlugin = {
     chart.clearSelection = function() {
       chart.config.data.datasets.forEach((dataset) => {
         dataset[EXPANDO_INDEX] = null;
+        dataset[EXPANDO_INDEX_DATASET] = null;
         Object.keys(dataset).forEach(key => {
           if (dataset[EXPANDO_COLOR] && dataset[EXPANDO_COLOR][key] !== undefined) {
             dataset[key] = dataset[EXPANDO_COLOR][key];
@@ -23,8 +24,8 @@ const SelectionDataPlugin = {
       });
       chart.update();
     };
-    chart.selectDataIndex = function(index) {
-      utils.selectIndexDataSet(chart, index);
+    chart.selectDataIndex = function(index, indexDataSet = 0) {
+      utils.selectIndexDataSet(chart, index, indexDataSet);
       chart.update();
     };
   },
@@ -36,20 +37,19 @@ const SelectionDataPlugin = {
     if (eventType === 'click') {
 
       let selectedElements = [];
-
-      if (chart.getElementsAtEvent) {
-        selectedElements = chart.getElementsAtEvent(chartEvent);
+      if (chart.getElementAtEvent) {
+        selectedElements = chart.getElementAtEvent(chartEvent);
       } else {
-        selectedElements = chart.getElementsAtEventForMode(chartEvent.event.native, 'index', {intersect: true}, false);
+        selectedElements = chart.getElementsAtEventForMode(chartEvent.event.native, 'nearest', {intersect: true}, false);
       }
 
       if (!selectedElements || (Array.isArray(selectedElements) && !selectedElements.length)) {
         return;
       }
-
       const selectedIndex = selectedElements[0]._index === undefined ? selectedElements[0].index : selectedElements[0]._index;
-      let clearSelection = utils.selectIndexDataSet(chart, selectedIndex);
-      utils.emitEventSelection(selectedIndex, selectedElements, clearSelection, options, chart);
+      const selectIndexDataSet = selectedElements[0]._datasetIndex === undefined ? selectedElements[0].datasetIndex : selectedElements[0]._datasetIndex;
+      let clearSelection = utils.selectIndexDataSet(chart, selectedIndex, selectIndexDataSet);
+      utils.emitEventSelection(selectedIndex, selectIndexDataSet, clearSelection, options, chart);
     }
   },
 };

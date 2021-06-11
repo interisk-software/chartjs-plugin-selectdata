@@ -1,11 +1,12 @@
 import Chart from 'chart.js';
-import {ALPHA, EXPANDO_COLOR, EXPANDO_INDEX} from './constants';
+import {ALPHA, EXPANDO_COLOR, EXPANDO_INDEX, EXPANDO_INDEX_DATASET} from './constants';
 
 const {helpers} = Chart;
 
-const ifNeedClearSelection = function(dataset, selectedIndex, resetKeys) {
-  if (dataset[EXPANDO_INDEX] === selectedIndex) {
+const ifNeedClearSelection = function(dataset, selectedIndex, selectedIndexDataSet, resetKeys) {
+  if (dataset[EXPANDO_INDEX] === selectedIndex && dataset[EXPANDO_INDEX_DATASET] === selectedIndexDataSet) {
     dataset[EXPANDO_INDEX] = null;
+    dataset[EXPANDO_INDEX_DATASET] = null;
     resetKeys.forEach(key => {
       dataset[key] = dataset[EXPANDO_COLOR][key];
     });
@@ -13,6 +14,7 @@ const ifNeedClearSelection = function(dataset, selectedIndex, resetKeys) {
   }
 
   dataset[EXPANDO_INDEX] = selectedIndex;
+  dataset[EXPANDO_INDEX_DATASET] = selectedIndexDataSet;
   return false;
 };
 
@@ -48,10 +50,10 @@ const setColorsAlphaAll = function(dataset, key) {
   }
 };
 
-const selectIndexDataSet = function(chart, selectedIndex) {
+const selectIndexDataSet = function(chart, selectedIndex, selectedIndexDataSet) {
   let clearSelection = false;
-
-  chart.config.data.datasets.forEach((dataset) => {
+  const indexIsEqual = (index, anotherIndex, trust, fake) => index === anotherIndex ? trust() : fake();
+  chart.config.data.datasets.forEach((dataset, indexDataSet) => {
     if (!dataset[EXPANDO_COLOR]) {
       dataset[EXPANDO_COLOR] = {};
     }
@@ -60,21 +62,32 @@ const selectIndexDataSet = function(chart, selectedIndex) {
     case 'radar':
     case 'scatter':
       dataset.pointBackgroundColor = dataset.pointBackgroundColor === undefined ? dataset.borderColor || 'rgb(0,0,0)' : dataset.pointBackgroundColor;
-      if (ifNeedClearSelection(dataset, selectedIndex, ['pointBackgroundColor', 'borderColor'])) {
+      if (ifNeedClearSelection(dataset, selectedIndex, selectedIndexDataSet, ['pointBackgroundColor', 'borderColor'])) {
         clearSelection = true;
         return;
       }
       checkExpandoKeys(dataset, ['pointBackgroundColor', 'borderColor']);
-      setColorsAlphaNotSelected(dataset, selectedIndex, 'pointBackgroundColor');
+
+      indexIsEqual(
+        indexDataSet, selectedIndexDataSet,
+        () => setColorsAlphaNotSelected(dataset, selectedIndex, 'pointBackgroundColor'),
+        ()=> setColorsAlphaAll(dataset, 'pointBackgroundColor')
+      );
+
       setColorsAlphaAll(dataset, 'borderColor');
       break;
     default:
-      if (ifNeedClearSelection(dataset, selectedIndex, ['backgroundColor'])) {
+      if (ifNeedClearSelection(dataset, selectedIndex, selectedIndexDataSet, ['backgroundColor'])) {
         clearSelection = true;
         return;
       }
       checkExpandoKeys(dataset, ['backgroundColor']);
-      setColorsAlphaNotSelected(dataset, selectedIndex, 'backgroundColor');
+
+      indexIsEqual(
+        indexDataSet, selectedIndexDataSet,
+        () => setColorsAlphaNotSelected(dataset, selectedIndex, 'backgroundColor'),
+        ()=> setColorsAlphaAll(dataset, 'backgroundColor')
+      );
       break;
     }
   });
@@ -83,9 +96,9 @@ const selectIndexDataSet = function(chart, selectedIndex) {
   return clearSelection;
 };
 
-const emitEventSelection = function(selectedIndex, selected, clearSelection, options, chart) {
+const emitEventSelection = function(selectedIndex, selectedIndexDataSet, clearSelection, options, chart) {
   const params = {
-    datasetIndex: selected.map((el) => el._datasetIndex === undefined ? el.datasetIndex : el._datasetIndex),
+    datasetIndex: selectedIndexDataSet,
     index: selectedIndex,
   };
   if (clearSelection && options.onSelectClear) {
