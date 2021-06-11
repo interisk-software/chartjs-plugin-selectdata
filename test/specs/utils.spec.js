@@ -1,5 +1,5 @@
 import utils from '../../src/utils';
-import {ALPHA, EXPANDO_COLOR, EXPANDO_INDEX} from '../../src/constants';
+import {ALPHA, EXPANDO_COLOR, EXPANDO_INDEX, EXPANDO_INDEX_DATASET} from '../../src/constants';
 import Chart from 'chart.js';
 const {helpers} = Chart;
 
@@ -31,6 +31,7 @@ describe('utils', function() {
   const key = 'key';
   const dataset = {};
   const selectedIndex = Math.floor(Math.random() * 2);
+  const selectedIndexDataSet = Math.floor(Math.random() * 2);
   dataset.data = [1, 2, 3];
   dataset[EXPANDO_COLOR] = {};
 
@@ -39,7 +40,8 @@ describe('utils', function() {
       dataset[key] = 'fake';
       dataset[EXPANDO_COLOR][key] = 'trust';
       dataset[EXPANDO_INDEX] = selectedIndex;
-      const result = utils.ifNeedClearSelection(dataset, selectedIndex, [key]);
+      dataset[EXPANDO_INDEX_DATASET] = selectedIndexDataSet;
+      const result = utils.ifNeedClearSelection(dataset, selectedIndex, selectedIndexDataSet, [key]);
       expect(result).toBeTrue();
       expect(dataset[key]).toEqual(dataset[EXPANDO_COLOR][key]);
     });
@@ -102,17 +104,21 @@ describe('utils', function() {
       it('should return false if for index different to selected', function() {
         let config = chartOptions();
         let chart = jasmine.chart.acquire(config);
-        let clearSelection = utils.selectIndexDataSet(chart, 1);
+        let clearSelection = utils.selectIndexDataSet(chart, 1, 0);
         expect(clearSelection).toBeFalse();
-        clearSelection = utils.selectIndexDataSet(chart, 2);
+        clearSelection = utils.selectIndexDataSet(chart, 2, 1);
+        expect(clearSelection).toBeFalse();
+        clearSelection = utils.selectIndexDataSet(chart, 1, 0);
         expect(clearSelection).toBeFalse();
       });
       it('should return true if for index equal to selected ', function() {
         let config = chartOptions();
         let chart = jasmine.chart.acquire(config);
-        let clearSelection = utils.selectIndexDataSet(chart, 1);
+        let clearSelection = utils.selectIndexDataSet(chart, 1, 0);
         expect(clearSelection).toBeFalse();
-        clearSelection = utils.selectIndexDataSet(chart, 1);
+        clearSelection = utils.selectIndexDataSet(chart, 2, 0);
+        expect(clearSelection).toBeFalse();
+        clearSelection = utils.selectIndexDataSet(chart, 2, 0);
         expect(clearSelection).toBeTrue();
       });
     });
@@ -121,18 +127,22 @@ describe('utils', function() {
         let config = chartOptions();
         config.type = 'line';
         let chart = jasmine.chart.acquire(config);
-        let clearSelection = utils.selectIndexDataSet(chart, 1);
+        let clearSelection = utils.selectIndexDataSet(chart, 1, 0);
         expect(clearSelection).toBeFalse();
-        clearSelection = utils.selectIndexDataSet(chart, 2);
+        clearSelection = utils.selectIndexDataSet(chart, 2, 1);
+        expect(clearSelection).toBeFalse();
+        clearSelection = utils.selectIndexDataSet(chart, 1, 0);
         expect(clearSelection).toBeFalse();
       });
       it('should return true if for index equal to selected ', function() {
         let config = chartOptions();
         config.type = 'line';
         let chart = jasmine.chart.acquire(config);
-        let clearSelection = utils.selectIndexDataSet(chart, 1);
+        let clearSelection = utils.selectIndexDataSet(chart, 1, 0);
         expect(clearSelection).toBeFalse();
-        clearSelection = utils.selectIndexDataSet(chart, 1);
+        clearSelection = utils.selectIndexDataSet(chart, 2, 0);
+        expect(clearSelection).toBeFalse();
+        clearSelection = utils.selectIndexDataSet(chart, 2, 0);
         expect(clearSelection).toBeTrue();
       });
     });
@@ -142,7 +152,7 @@ describe('utils', function() {
       const config = chartOptions();
       const onSelect = jasmine.createSpy('onSelect');
       const chart = jasmine.chart.acquire(config);
-      utils.emitEventSelection(0, [{datasetIndex: 0}], false, {onSelect}, chart);
+      utils.emitEventSelection(0, 0, false, {onSelect}, chart);
       expect(onSelect.calls.count()).toBe(1);
     });
     it('should return false if for index different to selected', function() {
@@ -152,11 +162,11 @@ describe('utils', function() {
       const index = Math.floor(Math.random() * 10);
       const datasetIndex = Math.floor(Math.random() * 10);
 
-      utils.emitEventSelection(index, [{datasetIndex}], true, {onSelectClear}, chart);
+      utils.emitEventSelection(index, datasetIndex, true, {onSelectClear}, chart);
 
       expect(onSelectClear.calls.count()).toBe(1);
       expect(onSelectClear.calls.argsFor(0)[0].index).toBe(index);
-      expect(onSelectClear.calls.argsFor(0)[0].datasetIndex[0]).toBe(datasetIndex);
+      expect(onSelectClear.calls.argsFor(0)[0].datasetIndex).toBe(datasetIndex);
       expect(onSelectClear.calls.argsFor(0)[1]).toBe(chart);
 
     });
