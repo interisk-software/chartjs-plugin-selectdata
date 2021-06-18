@@ -161,5 +161,31 @@ describe('events', function() {
       colors = chart.config.data.datasets[0].backgroundColor;
       expect(colors).toEqual('#444');
     });
+    it('should keep selection after changing datasets', function(done) {
+      const config = chartOptions();
+      const chart = jasmine.chart.acquire(config);
+
+      chart.selectDataIndex(0);
+
+      let colors = chart.config.data.datasets[0].backgroundColor;
+      expect(colors.length).toEqual(4);
+      expect(colors[0]).toEqual('#444');
+      expect(colors.filter(color => color === 'rgba(68, 68, 68, 0.1)').length).toEqual(3);
+
+      chart.config.data.datasets = [{
+        backgroundColor: '#444',
+        data: [2, 3, 4, 5]
+      }];
+
+      chart.update();
+
+      setTimeout(() => {
+        colors = chart.config.data.datasets[0].backgroundColor;
+        expect(colors.length).toEqual(4);
+        expect(colors[0]).toEqual('#444');
+        expect(colors.filter(color => color === 'rgba(68, 68, 68, 0.1)').length).toEqual(3);
+        done();
+      }, 300);
+    });
   });
 });

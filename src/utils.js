@@ -51,12 +51,15 @@ const setColorsAlphaAll = function(dataset, key) {
 };
 
 const selectIndexDataSet = function(chart, selectedIndex, selectedIndexDataSet) {
+  chart.selectedIndex = selectedIndex;
+  chart.selectIndexDataSet = selectedIndexDataSet;
   let clearSelection = false;
   const indexIsEqual = (index, anotherIndex, trust, fake) => index === anotherIndex ? trust() : fake();
   chart.config.data.datasets.forEach((dataset, indexDataSet) => {
     if (!dataset[EXPANDO_COLOR]) {
       dataset[EXPANDO_COLOR] = {};
     }
+    dataset._integrity = true;
     switch (dataset.type || chart.config.type) {
     case 'line':
     case 'radar':

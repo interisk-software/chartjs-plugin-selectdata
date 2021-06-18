@@ -8,9 +8,13 @@ globals.plugins.selectdata = {
   onSelect: undefined,
   onSelectClear: undefined
 };
-
 const SelectionDataPlugin = {
   id: 'selectdata',
+  beforeUpdate(chart) {
+    if (chart.data.datasets.find(el => !el._integrity) && chart.selectedIndex !== undefined && chart.selectIndexDataSet !== undefined) {
+      utils.selectIndexDataSet(chart, chart.selectedIndex, chart.selectIndexDataSet);
+    }
+  },
   afterInit(chart) {
     chart.clearSelection = function() {
       chart.config.data.datasets.forEach((dataset) => {
