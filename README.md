@@ -15,13 +15,13 @@ You can download the latest version of chartjs-plugin-selectdata from the [GitHu
 To install via npm:
 
 ```bash
-npm install chartjs-plugin-selectdata --save
+npm install @interisk-software/chartjs-plugin-selectdata --save
 ```
 
 To install via yarn:
 
 ```bash
-yarn add chartjs-plugin-selectdata
+yarn add @interisk-software/chartjs-plugin-selectdata
 ```
 To use CDN:
 
